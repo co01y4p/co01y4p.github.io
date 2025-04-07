@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Singapore Adventure Handbook: 5 Days of Thrills!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      /* Base styles */
+      body {
+        @apply bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300;
+        font-family: "Inter", sans-serif; /* Consider adding Inter font link or use system fonts */
+      }
+
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+      html {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Inspired by Linear App palettes */
+      .dark body {
+        @apply bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] text-gray-300;
+      }
+      .light body {
+        @apply bg-gradient-to-br from-white to-[#f0f2f5] text-gray-800;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        @apply font-semibold text-slate-900 dark:text-white tracking-tight;
+      }
+
+      h2 {
+        @apply text-2xl md:text-3xl border-b border-gray-200 dark:border-gray-700 pb-3 mb-6;
+      }
+      h3 {
+        @apply text-xl md:text-2xl mt-8 mb-4;
+      }
+      h4 {
+        @apply text-lg md:text-xl mt-6 mb-3 font-semibold;
+      }
+
+      a {
+        @apply text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors duration-200;
+      }
+
+      /* Card styling */
+      .content-card {
+        @apply bg-white dark:bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-sm border border-gray-200 dark:border-gray-700/50 p-6 transition duration-300 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600;
+      }
+
+      /* Button styling */
+      .toggle-button {
+        @apply p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200 scale-100 hover:scale-105;
+      }
+
+      /* Itinerary specific styling */
+      .itinerary-day {
+        @apply border-l-4 border-indigo-500 dark:border-indigo-400 pl-6 py-4 mb-8 relative;
+        /* Add a small circle marker */
+      }
+      .itinerary-day:before {
+        content: "";
+        @apply absolute left-[-9px] top-6 w-4 h-4 rounded-full bg-indigo-500 dark:bg-indigo-400 border-2 border-white dark:border-gray-900;
+      }
+      .itinerary-day h4 {
+        @apply mt-0 mb-2 text-lg font-semibold text-indigo-700 dark:text-indigo-300;
+      }
+      .itinerary-day ul {
+        @apply list-none pl-0;
+      }
+      .itinerary-day li {
+        @apply mb-2 relative pl-6;
+      }
+      .itinerary-day li i {
+        @apply absolute left-0 top-1 text-gray-500 dark:text-gray-400 text-sm;
+      }
+
+      /* Animation */
+      .fade-in-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .fade-in-section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* List item icons */
+      ul.icon-list li {
+        @apply mb-2 pl-8 relative;
+      }
+      ul.icon-list li i {
+        @apply absolute left-0 top-1 w-5 h-5 text-center text-indigo-500 dark:text-indigo-400;
+      }
+
+      /* Hero image overlay for better text contrast if needed */
+      .hero-image-container {
+        position: relative;
+      }
+      .hero-image-container::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.4) 0%,
+          rgba(0, 0, 0, 0) 50%
+        );
+        border-radius: 0.75rem; /* Match image rounding */
+      }
+      .hero-text {
+        position: relative;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <!-- Dark Mode Toggle Button -->
+    <button
+      id="theme-toggle"
+      type="button"
+      class="fixed bottom-5 right-5 z-50 toggle-button"
+    >
+      <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+      <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+    </button>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <!-- Header Section -->
+      <header class="mb-12 fade-in-section">
+        <div class="hero-image-container mb-8">
+          <img
+            src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDF8fHNpbmdhcG9yZSUyMHNreWxpbmV8ZW58MHx8fHwxNjE2NjY2Mzk5&ixlib=rb-1.2.1&q=80&w=1080"
+            alt="Singapore Skyline"
+            class="w-full h-auto object-cover rounded-xl shadow-lg"
+            loading="lazy"
+          />
+          <!-- Overlay text (optional) -->
+          <!-- <div class="absolute bottom-0 left-0 p-6 hero-text">
+                   <h1 class="text-3xl md:text-4xl font-bold text-white">Singapore Adventure Handbook</h1>
+               </div> -->
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-bold mb-2 text-center">
+          Singapore Adventure Handbook: 5 Days of Thrills!
+        </h1>
+        <p class="text-center text-lg text-gray-600 dark:text-gray-400 mb-6">
+          (March 15th - March 20th, 2024)
+        </p>
+        <p class="text-center text-lg max-w-3xl mx-auto">
+          Welcome to Singapore! Get ready for an action-packed 5-day journey
+          through the Lion City, blending futuristic marvels, lush nature,
+          cultural hotspots, and heart-pounding adventures. This handbook is
+          your guide to navigating Singapore's best thrills from March 15th to
+          March 19th, with your departure on March 20th.
+        </p>
+      </header>
+
+      <main>
+        <!-- Table of Contents (Simplified) -->
+        <!-- Consider adding links if desired -->
+        <!--
+            <nav class="mb-12 fade-in-section">
+                <h2 class="flex items-center space-x-2"><i class="fas fa-list-ul"></i><span>Table of Contents</span></h2>
+                <ul class="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
+                    <li>Trip Overview</li>
+                    <li>Your Destination: Singapore</li>
+                    <li>5-Day Adventure Itinerary</li>
+                    <li>Essential Packing List</li>
+                    <li>Accommodation Suggestions</li>
+                    <li>Flight Recommendations</li>
+                    <li>Useful Travel Tips</li>
+                </ul>
+            </nav>
+            -->
+
+        <!-- 1. Trip Overview -->
+        <section id="overview" class="mb-12 fade-in-section">
+          <h2 class="flex items-center space-x-3">
+            <i
+              class="fas fa-map-signs fa-fw text-indigo-500 dark:text-indigo-400"
+            ></i
+            ><span>Trip Overview</span>
+          </h2>
+          <div class="content-card grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div
+              class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <i class="fas fa-map-marker-alt fa-2x mb-2 text-red-500"></i>
+              <h4 class="font-semibold">Destination</h4>
+              <p>Singapore</p>
+            </div>
+            <div
+              class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <i class="fas fa-calendar-alt fa-2x mb-2 text-blue-500"></i>
+              <h4 class="font-semibold">Dates</h4>
+              <p>Mar 15 - Mar 20, 2024</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                (5 Full Days)
+              </p>
+            </div>
+            <div
+              class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <i class="fas fa-bullseye fa-2x mb-2 text-green-500"></i>
+              <h4 class="font-semibold">Focus</h4>
+              <p>Adventure, Thrills, Nature, Sights, Culture</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                (Fast-paced!)
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Your Destination: Singapore -->
+        <section id="destination" class="mb-12 fade-in-section">
+          <h2 class="flex items-center space-x-3">
+            <i
+              class="fas fa-globe-asia fa-fw text-indigo-500 dark:text-indigo-400"
+            ></i
+            ><span>Your Destination: Singapore</span>
+          </h2>
+
+          <div class="content-card mb-8">
+            <h3 class="flex items-center space-x-2 !mt-0">
+              <i
+                class="fas fa-info-circle fa-fw text-gray-500 dark:text-gray-400"
+              ></i
+              ><span>Introduction</span>
+            </h3>
+            <p>
+              Singapore is a vibrant island city-state known for its futuristic
+              skyline, rich multicultural heritage, and strict yet efficient
+              governance. Nicknamed the "Lion City," it masterfully blends
+              modernity with tradition, offering a unique and exhilarating
+              travel experience perfect for adventurers like you. Prepare for a
+              dazzling mix of innovation, nature, culture, and adrenaline!
+            </p>
+          </div>
+
+          <h3 class="flex items-center space-x-2">
+            <i
+              class="fas fa-book-open fa-fw text-gray-500 dark:text-gray-400"
+            ></i
+            ><span>Destination Insights</span>
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="content-card">
+              <h4 class="flex items-center space-x-2 !mt-0 !mb-3">
+                <i
+                  class="fas fa-landmark fa-fw text-gray-500 dark:text-gray-400"
+                ></i
+                ><span>History & Culture</span>
+              </h4>
+              <ul class="list-disc list-inside space-y-1 text-sm">
+                <li>Founded as British trading post in 1819.</li>
+                <li>Gained independence in 1965; rapid development.</li>
+                <li>
+                  Melting pot: Chinese, Malay, Indian, Eurasian influences.
+                </li>
+                <li>
+                  Known for cleanliness, safety, green spaces, strict laws
+                  (respect rules!).
+                </li>
+              </ul>
+            </div>
+            <div class="content-card">
+              <h4 class="flex items-center space-x-2 !mt-0 !mb-3">
+                <i
+                  class="fas fa-comments fa-fw text-gray-500 dark:text-gray-400"
+                ></i
+                ><span>Language</span>
+              </h4>
+              <ul class="list-disc list-inside space-y-1 text-sm">
+                <li>Official: English, Malay, Mandarin, Tamil.</li>
+                <li>
+                  English widely spoken (business, government, education).
+                </li>
+                <li>Singlish (local colloquial English) is common.</li>
+              </ul>
+            </div>
+            <div class="content-card">
+              <h4 class="flex items-center space-x-2 !mt-0 !mb-3">
+                <i
+                  class="fas fa-cloud-sun-rain fa-fw text-gray-500 dark:text-gray-400"
+                ></i
+                ><span>Weather</span>
+              </h4>
+              <ul class="list-disc list-inside space-y-1 text-sm">
+                <li>Tropical: Hot & humid year-round (25–31°C / 77–88°F).</li>
+                <li>Short, heavy rain showers common (often afternoon).</li>
+                <li>Always pack for rain!</li>
+              </ul>
+            </div>
+            <div class="content-card">
+              <h4 class="flex items-center space-x-2 !mt-0 !mb-3">
+                <i
+                  class="fas fa-grin-stars fa-fw text-gray-500 dark:text-gray-400"
+                ></i
+                ><span>Fun Facts</span>
+              </h4>
+              <ol class="list-decimal list-inside space-y-1 text-sm">
+                <li>"Lion City" name possibly from a mistaken sighting.</li>
+                <li>World's first Night Zoo.</li>
+                <li>Pioneered F1 Night Race.</li>
+                <li>Cars are very expensive to own.</li>
+                <li>National Orchid Garden has 1000+ species.</li>
+                <li>Land area increased ~25% via reclamation.</li>
+                <li>Consistently ranked among world's safest countries.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="content-card mt-6">
+            <h4 class="flex items-center space-x-2 !mt-0 !mb-3">
+              <i class="fas fa-exclamation-triangle fa-fw text-yellow-500"></i
+              ><span>Things to Keep in Mind</span>
+            </h4>
+            <ul class="icon-list space-y-2 text-sm">
+              <li>
+                <i class="fas fa-gavel"></i><strong>Strict Laws:</strong> No
+                littering, smoking in prohibited areas, jaywalking. Chewing gum
+                sale banned. Fines are hefty.
+              </li>
+              <li>
+                <i class="fas fa-dollar-sign"></i><strong>Cost:</strong> One of
+                the world's most expensive cities (esp. alcohol, accommodation).
+              </li>
+              <li>
+                <i class="fas fa-subway"></i
+                ><strong>Transport:</strong> Excellent & affordable MRT/bus
+                system. Grab is available.
+              </li>
+              <li>
+                <i class="fas fa-utensils"></i><strong>Food:</strong> Hawker
+                Centers offer delicious, affordable local food (UNESCO
+                recognized).
+              </li>
+              <li>
+                <i class="fas fa-wifi"></i><strong>Connectivity:</strong> Free
+                Wi-Fi common (Wireless@SG). Consider local SIM/eSIM.
+              </li>
+              <li>
+                <i class="fas fa-money-bill-wave"></i
+                ><strong>Currency:</strong> Singapore Dollar (SGD). Cards widely
+                accepted; cash useful for smaller vendors.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 3. Your 5-Day Adventure Itinerary -->
+        <section id="itinerary" class="mb-12 fade-in-section">
+          <h2 class="flex items-center space-x-3">
+            <i
+              class="fas fa-route fa-fw text-indigo-500 dark:text-indigo-400"
+            ></i
+            ><span>Your 5-Day Adventure Itinerary</span>
+          </h2>
+          <p class="mb-6 text-gray-600 dark:text-gray-400">
+            This itinerary is packed with adventure! Remember to book
+            high-demand activities in advance.
+          </p>
+
+          <!-- Day 1 -->
+          <div class="itinerary-day">
+            <h4>Day 1: Arrival & Iconic Heights (Fri, Mar 15)</h4>
+            <ul>
+              <li>
+                <i class="far fa-clock"></i><strong>Morning:</strong> Arrive SIN
+                (10:00 AM), transfer to hotel, check-in.
+              </li>
+              <li>
+                <i class="fas fa-tree"></i><strong>Afternoon:</strong> Explore
+                Gardens by the Bay (Supertree Grove, Cloud Forest).
+              </li>
+              <li>
+                <i class="fas fa-binoculars"></i
+                ><strong>Late Afternoon:</strong> Marina Bay Sands SkyPark for
+                sunset views.
+              </li>
+              <li>
+                <i class="fas fa-moon"></i><strong>Evening:</strong> Singapore
+                Night Safari (book 7:15 PM slot).
+              </li>
+              <li>
+                <i class="fas fa-utensils"></i><strong>Dinner:</strong> Late
+                dinner near hotel or Ulu Ulu Safari Restaurant.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Day 2 -->
+          <div class="itinerary-day">
+            <h4>Day 2: Jungle Trails & Island Escapes (Sat, Mar 16)</h4>
+            <ul>
+              <li>
+                <i class="fas fa-hiking"></i><strong>Morning:</strong> Early
+                start to MacRitchie Reservoir Park for TreeTop Walk (check
+                status!).
+              </li>
+              <li>
+                <i class="fas fa-ship"></i><strong>Afternoon:</strong> Bumboat
+                to Pulau Ubin. Explore via mountain bike or kayak (Chek Jawa
+                Wetlands).
+              </li>
+              <li>
+                <i class="fas fa-bolt"></i><strong>Evening:</strong> Return to
+                mainland. Optional G-MAX/GX-5 Swing at Clarke Quay. Enjoy
+                nightlife/dining/river cruise.
+              </li>
+              <li>
+                <i class="fas fa-utensils"></i><strong>Dinner:</strong> Clarke
+                Quay options.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Day 3 -->
+          <div class="itinerary-day">
+            <h4>Day 3: Sentosa Island Adrenaline Overload (Sun, Mar 17)</h4>
+            <ul>
+              <li>
+                <i class="fas fa-wind"></i><strong>Morning:</strong> Indoor
+                skydiving at iFly Singapore (book slot).
+              </li>
+              <li>
+                <i class="fas fa-film"></i
+                ><strong>Late Morning/Afternoon:</strong> Universal Studios
+                Singapore (prioritize thrill rides, consider Express Pass).
+              </li>
+              <li>
+                <i class="fas fa-hamburger"></i><strong>Lunch:</strong> Inside
+                USS or nearby (e.g., Malaysian Food Street).
+              </li>
+              <li>
+                <i class="fas fa-swimmer"></i
+                ><strong>Late Afternoon:</strong> Cool off at Adventure Cove
+                Waterpark (slides, Rainbow Reef).
+              </li>
+              <li>
+                <i class="fas fa-parachute-box"></i
+                ><strong>Evening (Optional):</strong> AJ Hackett Sentosa Bungy
+                Jump or Giant Swing.
+              </li>
+              <li>
+                <i class="fas fa-utensils"></i><strong>Dinner:</strong> On
+                Sentosa (beach clubs, Resorts World, Quayside Isle).
+              </li>
+            </ul>
+          </div>
+
+          <!-- Day 4 -->
+          <div class="itinerary-day">
+            <h4>
+              Day 4: Scenic Ridges, High Swings & City Lights (Mon, Mar 18)
+            </h4>
+            <ul>
+              <li>
+                <i class="fas fa-mountain"></i><strong>Morning:</strong> Explore
+                the Southern Ridges (Henderson Waves bridge walk).
+              </li>
+              <li>
+                <i class="fas fa-utensils"></i><strong>Lunch:</strong> Chinatown
+                exploration & Maxwell Food Centre.
+              </li>
+              <li>
+                <i class="fas fa-crosshairs"></i
+                ><strong>Afternoon:</strong> Back to Sentosa for Mega Adventure
+                Park (MegaZip).
+              </li>
+              <li>
+                <i class="far fa-eye"></i><strong>Evening:</strong> Singapore
+                Flyer ride for sunset/night views.
+              </li>
+              <li>
+                <i class="fas fa-mosque"></i
+                ><strong>Late Evening:</strong> Culture fix at Kampong Glam
+                (Sultan Mosque, Haji Lane).
+              </li>
+              <li>
+                <i class="fas fa-utensils"></i><strong>Dinner:</strong> Kampong
+                Glam or Bugis area.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Day 5 -->
+          <div class="itinerary-day">
+            <h4>
+              Day 5: Water Sports, Shopping & Farewell Views (Tue, Mar 19)
+            </h4>
+            <ul>
+              <li>
+                <i class="fas fa-water"></i><strong>Morning:</strong> Water
+                sports - Dragon Boat Racing (pre-book) or Kayaking
+                (Kallang/Pulau Ubin).
+              </li>
+              <li>
+                <i class="fas fa-utensils"></i><strong>Lunch:</strong> Near
+                Kallang or Bugis.
+              </li>
+              <li>
+                <i class="fas fa-shopping-bag"></i
+                ><strong>Afternoon:</strong> Explore Bugis Street Market
+                (bargains, souvenirs).
+              </li>
+              <li>
+                <i class="fas fa-helicopter"></i
+                ><strong>Evening:</strong> SkyHelix Sentosa for panoramic views
+                & drink.
+              </li>
+              <li>
+                <i class="fas fa-glass-cheers"></i
+                ><strong>Farewell Dinner:</strong> Rooftop restaurant (e.g.,
+                LAVO, 1-Altitude Coast - check status).
+              </li>
+            </ul>
+          </div>
+
+          <!-- Day 6 -->
+          <div
+            class="itinerary-day !border-l-4 !border-gray-400 dark:!border-gray-600"
+          >
+            <h4 class="!text-gray-600 dark:!text-gray-400">
+              Day 6: Departure (Wed, Mar 20)
+            </h4>
+            <ul class="text-gray-600 dark:text-gray-400">
+              <li>
+                <i class="fas fa-coffee"></i><strong>Morning:</strong> Final
+                Singaporean breakfast (Kaya Toast & Kopi).
+              </li>
+              <li>
+                <i class="fas fa-plane-departure"></i
+                ><strong>Late Morning:</strong> Last-minute shopping or head to
+                Changi Airport (allow 3+ hours).
+              </li>
+              <li>
+                <i class="fas fa-gem"></i><strong>Airport:</strong> Explore
+                Jewel Changi Airport (Rain Vortex). Depart.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 4. Essential Packing List -->
+        <section id="packing" class="mb-12 fade-in-section">
+          <h2 class="flex items-center space-x-3">
+            <i
+              class="fas fa-suitcase-rolling fa-fw text-indigo-500 dark:text-indigo-400"
+            ></i
+            ><span>Essential Packing List</span>
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="content-card">
+              <h4 class="!mt-0 !mb-3 flex items-center space-x-2">
+                <i
+                  class="fas fa-tshirt fa-fw text-gray-500 dark:text-gray-400"
+                ></i
+                ><span>Clothing</span>
+              </h4>
+              <ul class="icon-list text-sm space-y-1">
+                <li><i class="fas fa-check"></i>Lightweight, breathable</li>
+                <li><i class="fas fa-check"></i>Shorts, t-shirts, tanks</li>
+                <li><i class="fas fa-check"></i>Swimwear</li>
+                <li><i class="fas fa-check"></i>Smarter outfits (1-2)</li>
+                <li><i class="fas fa-check"></i>Light rain jacket/umbrella</li>
+                <li><i class="fas fa-check"></i>Comfortable walking shoes</li>
+                <li><i class="fas fa-check"></i>Sandals/flip-flops</li>
+                <li><i class="fas fa-check"></i>Water shoes (optional)</li>
+              </ul>
+            </div>
+            <div class="content-card">
+              <h4 class="!mt-0 !mb-3 flex items-center space-x-2">
+                <i
+                  class="fas fa-tools fa-fw text-gray-500 dark:text-gray-400"
+                ></i
+                ><span>Gear & Accessories</span>
+              </h4>
+              <ul class="icon-list text-sm space-y-1">
+                <li><i class="fas fa-check"></i>Daypack</li>
+                <li><i class="fas fa-check"></i>Reusable water bottle</li>
+                <li><i class="fas fa-check"></i>Sunscreen (high SPF)</li>
+                <li><i class="fas fa-check"></i>Sunglasses & Hat</li>
+                <li><i class="fas fa-check"></i>Insect repellent</li>
+                <li><i class="fas fa-check"></i>Waterproof phone case</li>
+                <li><i class="fas fa-check"></i>Portable charger</li>
+                <li><i class="fas fa-check"></i>Universal adapter (Type G)</li>
+              </ul>
+            </div>
+            <div class="content-card">
+              <h4 class="!mt-0 !mb-3 flex items-center space-x-2">
+                <i
+                  class="fas fa-id-card fa-fw text-gray-500 dark:text-gray-400"
+                ></i
+                ><span>Documents & Health</span>
+              </h4>
+              <ul class="icon-list text-sm space-y-1">
+                <li><i class="fas fa-check"></i>Passport & Visa (if req.)</li>
+                <li>
+                  <i class="fas fa-check"></i>Confirmations (Flight/Hotel)
+                </li>
+                <li><i class="fas fa-check"></i>Activity bookings</li>
+                <li><i class="fas fa-check"></i>Travel insurance</li>
+                <li><i class="fas fa-check"></i>Personal medications</li>
+                <li><i class="fas fa-check"></i>Small first-aid kit</li>
+                <li><i class="fas fa-check"></i>Credit/Debit cards</li>
+                <li><i class="fas fa-check"></i>Some SGD cash</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Accommodation Suggestions -->
+        <section id="accommodation" class="mb-12 fade-in-section">
+          <h2 class="flex items-center space-x-3">
+            <i class="fas fa-bed fa-fw text-indigo-500 dark:text-indigo-400"></i
+            ><span>Accommodation Suggestions</span>
+          </h2>
+          <p class="mb-6 text-gray-600 dark:text-gray-400">
+            Consider location based on your itinerary. Book well in advance!
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="content-card">
+              <h4 class="!mt-0 !mb-3 flex items-center space-x-2">
+                <i class="fas fa-star text-yellow-400"></i
+                ><span>Luxury ($$$$)</span>
+              </h4>
+              <ul class="list-disc list-inside text-sm space-y-1">
+                <li>Marina Bay Sands</li>
+                <li>The Fullerton Bay Hotel</li>
+                <li>Capella Singapore (Sentosa)</li>
+              </ul>
+            </div>
+            <div class="content-card">
+              <h4 class="!mt-0 !mb-3 flex items-center space-x-2">
+                <i class="fas fa-building"></i
+                ><span>Mid-Range / Boutique ($$$)</span>
+              </h4>
+              <ul class="list-disc list-inside text-sm space-y-1">
+                <li>Hotel Yan</li>
+                <li>Lloyd's Inn</li>
+                <li>Andaz Singapore</li>
+                <li>Village Hotel Sentosa</li>
+                <li>The Outpost Hotel Sentosa (Adults Only)</li>
+              </ul>
+            </div>
+            <div class="content-card">
+              <h4 class="!mt-0 !mb-3 flex items-center space-x-2">
+                <i class="fas fa-tag"></i><span>Value / Convenient ($$)</span>
+              </h4>
+              <ul class="list-disc list-inside text-sm space-y-1">
+                <li>YOTEL Singapore Orchard Road</li>
+                <li>Hotel G Singapore</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. Flight Recommendations -->
+        <section id="flights" class="mb-12 fade-in-section">
+          <h2 class="flex items-center space-x-3">
+            <i
+              class="fas fa-plane fa-fw text-indigo-500 dark:text-indigo-400"
+            ></i
+            ><span>Flight Recommendations (KUL - SIN)</span>
+          </h2>
+          <p class="mb-6 text-gray-600 dark:text-gray-400">
+            Flying is quickest (~1hr) between Kuala Lumpur and Singapore.
+          </p>
+          <div class="content-card">
+            <ul class="icon-list space-y-3">
+              <li>
+                <i class="fas fa-plane-departure"></i
+                ><strong>Airlines:</strong> Singapore Airlines, Malaysia
+                Airlines (Full Service); AirAsia, Scoot, Jetstar, Batik Air
+                (Budget).
+              </li>
+              <li>
+                <i class="fas fa-map-marker-alt"></i
+                ><strong>Airports:</strong> KUL (KLIA/KLIA2)
+                <i class="fas fa-arrow-right mx-2"></i> SIN (Changi).
+              </li>
+              <li>
+                <i class="fas fa-calendar-check"></i
+                ><strong>Booking Tips:</strong> Book early, check baggage
+                allowances (budget airlines), choose flight times to maximize
+                Day 1.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 7. Useful Travel Tips -->
+        <section id="tips" class="mb-12 fade-in-section">
+          <h2 class="flex items-center space-x-3">
+            <i
+              class="fas fa-lightbulb fa-fw text-indigo-500 dark:text-indigo-400"
+            ></i
+            ><span>Useful Travel Tips</span>
+          </h2>
+          <div class="content-card">
+            <ul
+              class="icon-list grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3"
+            >
+              <li>
+                <i class="fas fa-ticket-alt"></i
+                ><strong>Book Ahead:</strong> Essential for popular attractions
+                & tours.
+              </li>
+              <li>
+                <i class="fas fa-bus-alt"></i
+                ><strong>Transport Pass:</strong> Consider Singapore Tourist
+                Pass or contactless/EZ-Link card.
+              </li>
+              <li>
+                <i class="fas fa-wifi"></i><strong>Stay Connected:</strong> Get
+                local SIM/eSIM or use Wireless@SG.
+              </li>
+              <li>
+                <i class="fas fa-taxi"></i><strong>Use Grab:</strong> Convenient
+                ride-hailing app.
+              </li>
+              <li>
+                <i class="fas fa-tint"></i><strong>Hydrate:</strong> Drink
+                plenty of water (carry reusable bottle).
+              </li>
+              <li>
+                <i class="fas fa-utensils"></i
+                ><strong>Hawker Culture:</strong> Must-try! Remember to return
+                trays.
+              </li>
+              <li>
+                <i class="fas fa-balance-scale"></i
+                ><strong>Respect Laws:</strong> Follow rules (cleanliness,
+                smoking etc.).
+              </li>
+              <li>
+                <i class="fas fa-hand-holding-usd"></i
+                ><strong>Tipping:</strong> Generally not expected (service
+                charge often included).
+              </li>
+              <li>
+                <i class="fas fa-ambulance"></i
+                ><strong>Emergency Numbers:</strong> 995 (Fire/Ambulance), 999
+                (Police).
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- User-Generated Itineraries Showcase -->
+        <section id="showcase" class="mb-12 fade-in-section">
+          <h2 class="flex items-center space-x-3">
+            <i
+              class="fas fa-users fa-fw text-indigo-500 dark:text-indigo-400"
+            ></i
+            ><span>Community Adventures</span>
+          </h2>
+          <p class="mb-6 text-gray-600 dark:text-gray-400">
+            Explore travel itineraries created by our community members. Click
+            on any card to view the full itinerary!
+          </p>
+
+          <div
+            id="showcase-container"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            <!-- Cards will be dynamically generated here -->
+          </div>
+        </section>
+
+        <!-- Popup for itinerary display -->
+        <div
+          id="itinerary-popup"
+          class="fixed inset-0 z-50 flex items-center justify-center hidden"
+        >
+          <div
+            class="absolute inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm"
+            id="popup-overlay"
+          ></div>
+          <div
+            class="relative bg-white dark:bg-gray-800 w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl p-6 z-10 transition-all duration-300 transform scale-100"
+          >
+            <button
+              id="close-popup"
+              class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              <i class="fas fa-times text-2xl"></i>
+            </button>
+            <div id="popup-content" class="mt-2">
+              <!-- Itinerary content will be loaded here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Final Message -->
+        <section class="text-center mt-16 fade-in-section">
+          <p class="text-xl font-semibold mb-4">
+            Have an absolutely incredible and thrilling adventure in Singapore!
+            🚀🌆✨
+          </p>
+          <p class="text-gray-600 dark:text-gray-400">
+            Enjoy the rides, the views, the food, and the unique energy of the
+            Lion City!
+          </p>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer
+        class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400 fade-in-section"
+      >
+        <p>Author: Pharst</p>
+        <p>&copy; 2024 Pharst. All rights reserved.</p>
+      </footer>
+    </div>
+    <!-- End Container -->
+
+    <script>
+      // Dark Mode Toggle Logic
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const themeToggleDarkIcon = document.getElementById(
+        "theme-toggle-dark-icon"
+      );
+      const themeToggleLightIcon = document.getElementById(
+        "theme-toggle-light-icon"
+      );
+
+      // Function to apply theme
+      const applyTheme = (theme) => {
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark");
+          themeToggleLightIcon.classList.remove("hidden");
+          themeToggleDarkIcon.classList.add("hidden");
+          localStorage.setItem("color-theme", "dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          themeToggleDarkIcon.classList.remove("hidden");
+          themeToggleLightIcon.classList.add("hidden");
+          localStorage.setItem("color-theme", "light");
+        }
+      };
+
+      // Check initial theme preference
+      const currentTheme =
+        localStorage.getItem("color-theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      applyTheme(currentTheme);
+
+      // Add event listener for the toggle button
+      themeToggleBtn.addEventListener("click", () => {
+        const newTheme = document.documentElement.classList.contains("dark")
+          ? "light"
+          : "dark";
+        applyTheme(newTheme);
+      });
+
+      // Fade-in Animation Logic
+      const observerOptions = {
+        root: null, // relative to document viewport
+        rootMargin: "0px",
+        threshold: 0.1, // trigger when 10% of the element is visible
+      };
+
+      const observerCallback = (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target); // Stop observing once visible
+          }
+        });
+      };
+
+      const observer = new IntersectionObserver(
+        observerCallback,
+        observerOptions
+      );
+
+      // Observe all sections with the fade-in class
+      document.querySelectorAll(".fade-in-section").forEach((section) => {
+        observer.observe(section);
+      });
+
+      // Showcase Functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const showcaseContainer = document.getElementById("showcase-container");
+        const itineraryPopup = document.getElementById("itinerary-popup");
+        const popupContent = document.getElementById("popup-content");
+        const closePopupBtn = document.getElementById("close-popup");
+        const popupOverlay = document.getElementById("popup-overlay");
+
+        // Function to load showcase itineraries
+        async function loadShowcaseItineraries() {
+          try {
+            // In a production environment, you'd make an API call to get the list of itineraries
+            // For example: const response = await fetch('/api/itineraries');
+            // const itineraries = await response.json();
+
+            // For now, we'll use sample data
+            const itineraries = [
+              {
+                id: 1,
+                title: "Bali Beach Paradise",
+                author: "TravelExplorer42",
+                date: "May 2024",
+                description:
+                  "A relaxing 7-day beach adventure through Bali's finest coastal spots.",
+                image:
+                  "https://images.unsplash.com/photo-1537996194471-e657df975ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDF8fGJhbGl8ZW58MHx8fHwxNjE2NjY3MzA5&ixlib=rb-1.2.1&q=80&w=400",
+                path: "./showcase/bali-itinerary.html",
+              },
+              {
+                id: 2,
+                title: "Tokyo Urban Explorer",
+                author: "CityHopper",
+                date: "April 2024",
+                description:
+                  "A fast-paced 5-day journey through Tokyo's vibrant neighborhoods.",
+                image:
+                  "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDF8fHRva3lvfGVufDB8fHx8MTYxNjY2NzM1Nw&ixlib=rb-1.2.1&q=80&w=400",
+                path: "./showcase/tokyo-itinerary.html",
+              },
+              {
+                id: 3,
+                title: "Swiss Alps Adventure",
+                author: "MountainLover",
+                date: "March 2024",
+                description:
+                  "An exhilarating 6-day hiking and skiing trip through the Swiss Alps.",
+                image:
+                  "https://images.unsplash.com/photo-1531219572328-a0171b4448a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNjE2NXwwfDF8c2VhcmNofDF8fHN3aXNzJTIwYWxwc3xlbnwwfHx8fDE2MTY2NjczOTA&ixlib=rb-1.2.1&q=80&w=400",
+                path: "./showcase/swiss-itinerary.html",
+              },
+            ];
+
+            // PRODUCTION CODE:
+            // In a real server environment, you'd replace the above with code like:
+            //
+            // async function scanShowcaseDirectory() {
+            //   try {
+            //     const response = await fetch('/api/showcase-itineraries');
+            //     if (!response.ok) throw new Error('Failed to fetch itineraries');
+            //     return await response.json();
+            //   } catch (error) {
+            //     console.error('Error scanning showcase directory:', error);
+            //     return [];
+            //   }
+            // }
+            //
+            // const itineraries = await scanShowcaseDirectory();
+
+            // Generate cards for each itinerary
+            if (itineraries.length === 0) {
+              showcaseContainer.innerHTML = `
+                <div class="col-span-full text-center p-8">
+                  <i class="fas fa-file-alt text-4xl text-gray-400 mb-4"></i>
+                  <h3 class="text-xl font-semibold mb-2">No Itineraries Yet</h3>
+                  <p>Be the first to share your travel experience!</p>
+                </div>
+              `;
+              return;
+            }
+
+            // Generate cards for each itinerary
+            itineraries.forEach((itinerary) => {
+              const card = document.createElement("div");
+              card.className =
+                "content-card cursor-pointer transform transition-transform duration-300 hover:scale-105 hover:shadow-xl";
+              card.dataset.itineraryId = itinerary.id;
+
+              card.innerHTML = `
+                <div class="relative h-48 mb-4 overflow-hidden rounded-t-lg">
+                  <img src="${itinerary.image}" alt="${itinerary.title}" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 flex items-end">
+                    <h3 class="text-white text-xl p-4 font-bold">${itinerary.title}</h3>
+                  </div>
+                </div>
+                <div class="p-4">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">By: ${itinerary.author}</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-500">${itinerary.date}</span>
+                  </div>
+                  <p class="text-sm mb-4">${itinerary.description}</p>
+                  <div class="flex justify-end">
+                    <button class="view-itinerary text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300">
+                      View Itinerary <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                  </div>
+                </div>
+              `;
+
+              showcaseContainer.appendChild(card);
+
+              card.addEventListener("click", function () {
+                openItinerary(itinerary.path);
+              });
+            });
+          } catch (error) {
+            console.error("Error loading showcase itineraries:", error);
+            showcaseContainer.innerHTML = `
+              <div class="col-span-full p-6 text-center">
+                <i class="fas fa-exclamation-triangle text-2xl text-red-500 mb-3"></i>
+                <h3 class="text-lg font-semibold">Error Loading Itineraries</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Please try refreshing the page.</p>
+              </div>
+            `;
+          }
+        }
+
+        // Load showcase itineraries
+        loadShowcaseItineraries();
+
+        // Function to open itinerary popup
+        function openItinerary(path) {
+          // In production, this would fetch the HTML content from the server
+          // For now, we'll simulate loading content with a placeholder
+          popupContent.innerHTML = `
+            <div class="flex justify-center items-center py-10">
+              <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+            </div>
+          `;
+
+          itineraryPopup.classList.remove("hidden");
+          document.body.classList.add("overflow-hidden");
+
+          // Fetch the content from the file (this would work in production)
+          fetch(path)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.text();
+            })
+            .then((html) => {
+              // Extract the body content from the HTML
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, "text/html");
+              const bodyContent = doc.body.innerHTML;
+
+              // Insert the content
+              popupContent.innerHTML = bodyContent;
+            })
+            .catch((error) => {
+              console.error("Error loading itinerary:", error);
+              popupContent.innerHTML = `
+                <div class="text-center p-6">
+                  <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                  <h3 class="text-xl font-semibold mb-2">Error Loading Itinerary</h3>
+                  <p>Sorry, we couldn't load this itinerary. Please try again later.</p>
+                </div>
+              `;
+            });
+        }
+
+        // Close popup functionality
+        function closePopup() {
+          itineraryPopup.classList.add("hidden");
+          document.body.classList.remove("overflow-hidden");
+          setTimeout(() => {
+            popupContent.innerHTML = "";
+          }, 300);
+        }
+
+        closePopupBtn.addEventListener("click", closePopup);
+        popupOverlay.addEventListener("click", closePopup);
+
+        // Close on escape key
+        document.addEventListener("keydown", function (event) {
+          if (
+            event.key === "Escape" &&
+            !itineraryPopup.classList.contains("hidden")
+          ) {
+            closePopup();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
